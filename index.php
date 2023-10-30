@@ -52,7 +52,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quick_Access</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="adminLogin.html" class="dropdown-item">Admin</a>
-                        <a href="student.html" class="dropdown-item">Student</a>
+                        <a href="login.php" class="dropdown-item">Student</a>
                     </div>
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>

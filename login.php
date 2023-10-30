@@ -4,7 +4,7 @@ session_start();
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "login_computerstudies";
+$database = "computerstudies";
 
 // Establish a connection to the MySQL database
 $conn = new mysqli($host, $username, $password, $database);
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (password_verify($password, $user["password"])) {
                 $_SESSION["username"] = $username;
-                header("Location: index.html");
+                header("Location: admin/PastPapers/view.php ");
                 exit;
             } else {
                 echo "Incorrect password.";
@@ -42,9 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 if (isset($_SESSION["username"])) {
-    header("Location: index.html");
+    header("Location: admin/PastPapers/view.php");
     exit;
 }
+
 ?>
 
 
