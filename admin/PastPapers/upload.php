@@ -1,17 +1,16 @@
 <?php
 include "config.php";
 
+$years = [1, 2, 3];
 $courseLists = [
     '1' => ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Com Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
     '2' => ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
     '3' => ['Advanced Programming', 'Computer Networks', 'MIS', 'System Analysis and Design II'],
 ];
 
-$years = [1, 2, 3];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year = $_POST['year'];
-    $paper_year = $_POST['Paper_Year'];
+    $paperYear = $_POST['Paper_Year'];
     $course = $_POST['course'];
 
     if ($_FILES["paper"]["error"] == UPLOAD_ERR_OK) {
@@ -27,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $conn->prepare($sql);
 
                 if ($stmt) {
-                    $stmt->bind_param("ssss", $year, $paper_year, $course, $targetPath);
+                    $stmt->bind_param("ssss", $year, $paperYear, $course, $targetPath);
 
                     if ($stmt->execute()) {
                         $uploadMessage = "File uploaded and record inserted into the database successfully!";
@@ -49,175 +48,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Past Paper Upload</title>
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+    <!-- Add your CSS styles or link to Bootstrap if needed -->
+
     <style>
+        /* Add your custom styles here */
         body {
             background-color: #f8f9fa;
+            font-family: 'Open Sans', sans-serif;
         }
 
-        .container-fluid {
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        #sidebar {
-            min-width: 200px;
-            max-width: 200px;
-            height: 100vh;
-            background-color: #343a40;
-            color: #fff;
-            transition: all 0.3s;
-        }
-
-        #sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #fff;
-            display: block;
-            transition: all 0.3s;
-        }
-
-        #sidebar a:hover {
-            background-color: #007bff;
-        }
-
-        #content {
-            width: 100%;
-            padding: 15px;
-            transition: all 0.3s;
-        }
-
-        .card-header {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .card-body {
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
             background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .form-control {
-            margin-bottom: 10px;
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px; /* Adjusted font size */
         }
 
-        .btn-primary {
+        select, input, button {
+            width: 100%;
+            padding: 12px; /* Adjusted padding */
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px; /* Adjusted font size */
+        }
+
+        button {
             background-color: #007bff;
-            border-color: #007bff;
+            color: #fff;
+            cursor: pointer;
         }
 
-        .btn-primary:hover {
+        button:hover {
             background-color: #0056b3;
-            border-color: #0056b3;
         }
     </style>
-
-
 </head>
 <body>
 
-    <div class="container-fluid">
-        <div class="row">
-
-            <!-- Sidebar -->
-            <nav id="sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#uploadModal">
-                                Past Papers
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Profile
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Quiz
-                            </a>
-                        </li>
-                        <!-- Add more items as needed -->
-                    </ul>
-                </div>
-            </nav>
-
-            <!-- Main Content -->
-            <main id="content">
-                
-
-                <?php if (isset($uploadMessage)) { ?>
-                    <div class="alert alert-info" role="alert">
-                        <?php echo $uploadMessage; ?>
-                    </div>
-                <?php } ?>
-
-                <!-- Modal for Uploading Past Papers -->
-                <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="uploadModalLabel">Upload Past Papers</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <label for="year">Academic Year</label>
-                                        <select name="year" class="form-control" onchange="populateCourses(this.value)">
-                                            <option value="">Select Academic Year</option>
-                                            <?php foreach ($years as $year) { ?>
-                                                <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="Paper_Year">Paper Year</label>
-                                        <input type="text" name="Paper_Year" class="form-control" placeholder="Enter Paper Year" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="course">Course</label>
-                                        <select name="course" class="form-control" id="courses">
-                                            <!-- Courses will be populated dynamically -->
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="paper">File</label>
-                                        <input type="file" name="paper" class="form-control-file" accept=".pdf" required>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary">Upload</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                
+    <?php if (isset($uploadMessage)) { ?>
+        <div>
+            <?php echo $uploadMessage; ?>
         </div>
-    </div>
+    <?php } ?>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- Form for Uploading Past Papers -->
+    <form method="POST" enctype="multipart/form-data">
+        <label for="year">Academic Year</label>
+        <select name="year" onchange="populateCourses(this.value)">
+            <option value="">Select Academic Year</option>
+            <?php foreach ($years as $year) { ?>
+                <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+            <?php } ?>
+        </select>
+
+        <label for="Paper_Year">Paper Year</label>
+        <input type="text" name="Paper_Year" placeholder="Enter Paper Year" required>
+
+        <label for="course">Course</label>
+        <select name="course" id="courses">
+            <!-- Courses will be populated dynamically -->
+        </select>
+
+        <label for="paper">File</label>
+        <input type="file" name="paper" accept=".pdf" required>
+
+        <button type="submit">Upload</button>
+    </form>
+
     <script>
         function populateCourses(year) {
             var coursesDropdown = document.getElementById("courses");
@@ -236,5 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     </script>
+
+   
+
 </body>
 </html>
