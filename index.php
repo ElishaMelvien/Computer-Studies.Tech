@@ -49,9 +49,9 @@
                 <a href="about.php" class="nav-item nav-link">About</a>
                 
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Quick_Access</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Login</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="adminLogin.html" class="dropdown-item">Admin</a>
+                        <a href="login.php" class="dropdown-item">Admin</a>
                         <a href="login.php" class="dropdown-item">Student</a>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
 
 
             </div>
-            <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="register.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -121,7 +121,7 @@
                 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="service-item text-center pt-3">
                         <div class="p-4">
-                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                            <i class="fa fa-3x fa-files text-primary mb-4"></i>
                             <h5 class="mb-3">TEVETA Past Papers</h5>
                             <p>Download Past Papers From first year to third year</p>
                         </div>
@@ -175,9 +175,7 @@
                         <div class="col-sm-6">
                             <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Best Books</p>
                         </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Upload and Download Assignments</p>
-                        </div>
+                        
                         <div class="col-sm-6">
                             <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Past Papers</p>
                         </div>

@@ -15,11 +15,13 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
+    
+
 
     if (empty($username) || empty($password)) {
         echo "Invalid Username and Password!";
     } else {
-        $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
+        $sql = "SELECT id, username, password, role FROM users WHERE username = ? LIMIT 1";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -30,7 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (password_verify($password, $user["password"])) {
                 $_SESSION["username"] = $username;
-                header("Location: admin/PastPapers/view.php ");
+                $_SESSION["role"] = $user["role"];
+
+                if ($user["role"] === 'admin') {
+                    header("Location: admin/includes/dashboard.php");
+                } elseif ($user["role"] === 'user') {
+                    header("Location: admin/PastPapers/view.php");
+                } else {
+                    // Handle other roles or unknown roles here
+                }
                 exit;
             } else {
                 echo "Incorrect password.";
@@ -42,11 +52,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 if (isset($_SESSION["username"])) {
-    header("Location: admin/PastPapers/view.php");
+    if ($_SESSION["role"] === 'admin') {
+        header("Location: admin/includes/dashboard.php");
+    } elseif ($_SESSION["role"] === 'user') {
+        header("Location: admin/PastPapers/view.php");
+    } else {
+        // Handle other roles or unknown roles here
+    }
     exit;
 }
-
 ?>
+
 
 
 
@@ -96,7 +112,7 @@ if (isset($_SESSION["username"])) {
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Student Login</h5>
+                                        <h5 class="card-title text-center pb-0 fs-4"> Login</h5>
 
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
