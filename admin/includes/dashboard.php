@@ -3,6 +3,7 @@
 <?php include('header.php'); ?>
 
 <?php include('sidebar.php'); ?>
+
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -16,7 +17,10 @@
     </div><!-- End Page Title -->
     
         <!-- added this on 07/11/23 -->
+
 <div id="dashboardContent">
+  
+
 
     
 
@@ -82,6 +86,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  
 
 </body>
 
