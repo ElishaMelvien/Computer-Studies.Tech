@@ -11,9 +11,6 @@
   </li><!-- End Dashboard Nav -->
 
 
-  
-
-
   <li class="nav-heading">Pages</li>
 
   <li class="nav-item">
@@ -32,7 +29,7 @@
 
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" id="Books">
+    <a class="nav-link collapsed" href="#" id="loadBooks">
       <i class="bi bi-book"></i>
       <span>Books</span>
     </a>
@@ -40,17 +37,20 @@
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" id="Quiz">
-      <i class="bi bi-question"></i>
+      <i class="bi bi-gear"></i>
       <span>Quiz</span>
     </a>
-  </li><!-- End  Courses -->
+  </li><!-- End  Quiz -->
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" id="Profile">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
+  <!-- Sidebar content -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" id="loadDataTable">
+        <i class="bi bi-people"></i>
+        <span> Manage Users</span>
     </a>
-  </li><!-- End Profile Page Nav -->
+</li><!-- End Manage Users -->
+
+
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" id="Home">
@@ -59,5 +59,12 @@
     </a>
   </li><!-- End  Home -->
 
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" id="Profile">
+      <i class="bi bi-person"></i>
+      <span>Profile</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
 </aside><!-- End Sidebar-->

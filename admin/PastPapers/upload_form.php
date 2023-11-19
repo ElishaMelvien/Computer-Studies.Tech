@@ -66,6 +66,16 @@ $courseLists = [
 
         }
 
+        .alert-success {
+    background-color: #d4edda; /* Green background color */
+    color: #155724; /* Dark green text color */
+    border: 1px solid #c3e6cb; /* Border color */
+    padding: 15px; /* Padding for better visibility */
+    border-radius: 4px; 
+    margin-top: 10px; 
+}
+
+
 
     </style>
 </head>
@@ -76,6 +86,19 @@ $courseLists = [
             <?php echo $uploadMessage; ?>
         </div>
     <?php } ?>
+
+    
+
+
+    <div class="pagetitle">
+      <h1>Admin_Uploads PastPapers</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
 
     <!-- Form for Uploading Past Papers -->
     <form id="pastPaperForm" method="POST" enctype="multipart/form-data">

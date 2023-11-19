@@ -16,27 +16,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-
-
     if (empty($username) || empty($password)) {
         echo "Invalid Username and Password!";
     } else {
-        $sql = "SELECT id, username, password, role FROM users WHERE username = ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // Check in the admin table
+        $admin_sql = "SELECT id, username, password, role FROM admin WHERE username = ? LIMIT 1";
+        $admin_stmt = $conn->prepare($admin_sql);
+        $admin_stmt->bind_param("s", $username);
+        $admin_stmt->execute();
+        $admin_result = $admin_stmt->get_result();
 
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
+        // Check in the user table if not found in the admin table
+        if ($admin_result->num_rows === 0) {
+            $user_sql = "SELECT id, username, password, role FROM users WHERE username = ? LIMIT 1";
+            $user_stmt = $conn->prepare($user_sql);
+            $user_stmt->bind_param("s", $username);
+            $user_stmt->execute();
+            $user_result = $user_stmt->get_result();
 
-            if (password_verify($password, $user["password"])) {
+            if ($user_result->num_rows === 1) {
+                $user = $user_result->fetch_assoc();
+
+                if (password_verify($password, $user["password"])) {
+                    $_SESSION["username"] = $username;
+                    $_SESSION["role"] = $user["role"];
+
+                    if ($user["role"] === 'admin') {
+                        header("Location: admin/includes/dashboard.php");
+                    } elseif ($user["role"] === 'user') {
+                        header("Location: admin/PastPapers/view.php");
+                    } else {
+                        // Handle other roles or unknown roles here
+                    }
+                    exit;
+                } else {
+                    echo "Incorrect password.";
+                }
+            } else {
+                echo "User not found.";
+            }
+        } else {
+            // Admin login successful
+            $admin = $admin_result->fetch_assoc();
+
+            if (password_verify($password, $admin["password"])) {
                 $_SESSION["username"] = $username;
-                $_SESSION["role"] = $user["role"];
+                $_SESSION["role"] = $admin["role"];
 
-                if ($user["role"] === 'admin') {
+                if ($admin["role"] === 'admin') {
                     header("Location: admin/includes/dashboard.php");
-                } elseif ($user["role"] === 'user') {
+                } elseif ($admin["role"] === 'user') {
                     header("Location: admin/PastPapers/view.php");
                 } else {
                     // Handle other roles or unknown roles here
@@ -45,8 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 echo "Incorrect password.";
             }
-        } else {
-            echo "User not found.";
         }
     }
 }
@@ -63,6 +90,9 @@ if (isset($_SESSION["username"])) {
     exit;
 }
 ?>
+
+
+
 
 
 

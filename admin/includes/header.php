@@ -1,3 +1,25 @@
+<?php 
+include 'config.php'; // include config.php at the beginning
+
+$adminId = 1;
+
+// Retrieve admin profile name
+$sql = "SELECT username, role FROM admin WHERE id = '$adminId'";
+$result = mysqli_query($conn, $sql); 
+
+// Check if the query was successful
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+
+    // Check if the user has the 'admin' role
+    if ($row['role'] === 'admin') {
+        $profileName = $row['username'];
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +31,11 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+  
+  
+
+
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -208,12 +235,12 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $profileName; ?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
+              <h6><?php echo $profileName; ?></h6>
               <span>Web Designer</span>
             </li>
             <li>

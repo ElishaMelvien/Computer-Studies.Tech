@@ -1,8 +1,6 @@
 <?php
 include "config.php";
 
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year = $_POST['year'];
     $paperYear = $_POST['Paper_Year'];
@@ -24,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->bind_param("ssss", $year, $paperYear, $course, $targetPath);
 
                     if ($stmt->execute()) {
+                        // Set the success message
                         $uploadMessage = "File uploaded and record inserted into the database successfully!";
                     } else {
                         $uploadMessage = "Error inserting record into the database: " . $stmt->error;
@@ -40,12 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $uploadMessage = "Error uploading file: " . $_FILES["paper"]["error"];
     }
+
+    // Echo the success or failure message
+    echo $uploadMessage;
 }
 ?>
-
-
-
-
-
-</body>
-</html>
