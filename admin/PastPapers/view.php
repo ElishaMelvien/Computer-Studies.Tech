@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <!-- Add custom CSS for smaller buttons and inline display -->
+    
     <style>
         .course-info {
             display: flex;
@@ -49,9 +49,9 @@
     
 </head>
 <body>
-<a href="logout.php" class="btn btn-primary" style="margin-bottom: 10px;">Logout</a>
+
     <div class="container mt-5">
-        <h1 class="display-4"> Past Papers</h1>
+        
 
         <form method="GET">
             <div class="row g-3">

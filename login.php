@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     if ($user["role"] === 'admin') {
                         header("Location: admin/includes/dashboard.php");
                     } elseif ($user["role"] === 'user') {
-                        header("Location: admin/PastPapers/view.php");
+                        header("Location: user/dashboard.php");
                     } else {
                         // Handle other roles or unknown roles here
                     }
@@ -87,6 +87,9 @@ if (isset($_SESSION["username"])) {
         // Handle other roles or unknown roles here
         // such as Instructor
     }
+
+    
+
     exit;
 }
 ?>
