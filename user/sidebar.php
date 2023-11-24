@@ -21,7 +21,7 @@
   </li><!-- End  Courses -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" id="loadPastPapers">
+    <a class="nav-link collapsed" href="../admin/PastPapers/view.php" id="loadPastPapers">
       <i class="bi bi-files"></i>
       <span>Past_Papers</span>
     </a>

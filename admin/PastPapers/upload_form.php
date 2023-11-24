@@ -67,7 +67,7 @@ $courseLists = [
         }
 
         .alert-success {
-    background-color: #d4edda; /* Green background color */
+    background-color: #2eca6a; /* Green background color */
     color: #155724; /* Dark green text color */
     border: 1px solid #c3e6cb; /* Border color */
     padding: 15px; /* Padding for better visibility */
