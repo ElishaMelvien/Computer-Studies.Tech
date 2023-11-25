@@ -29,6 +29,9 @@ $profileName = $_SESSION["username"];
   <meta content="" name="description">
   <meta content="" name="keywords">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="datatable/datatables.min.js"></script>
+
+
   
   
  <!-- Favicons -->
@@ -63,6 +66,8 @@ $profileName = $_SESSION["username"];
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    
+
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

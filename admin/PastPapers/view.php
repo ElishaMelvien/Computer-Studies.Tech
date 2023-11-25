@@ -1,13 +1,18 @@
+<?php
+include "config.php";
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Past Papers</title>
+    <title> Past Papers</title>
     
     <!-- Include Google Fonts (Roboto) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    
+    <!-- Add custom CSS for smaller buttons and inline display -->
     <style>
         .course-info {
             display: flex;
@@ -60,9 +65,7 @@
                     <select name="year" id="yearSelect" class="form-select">
                         <option value="">Select Academic Year</option>
                         <?php
-                        include "config.php"; // Include the database configuration
-
-                        $years = [1, 2, 3]; // Add the years 1, 2, and 3 to the array
+                        $years = [1, 2, 3];
 
                         foreach ($years as $year) {
                             $selected = ($year == $_GET['year']) ? "selected" : "";
