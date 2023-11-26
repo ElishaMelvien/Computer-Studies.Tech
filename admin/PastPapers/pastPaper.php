@@ -1,126 +1,144 @@
 <?php
 include "config.php";
 
-$courseLists = [
-    '1' => ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Com Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
-    '2' => ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
-    '3' => ['Advanced Programming', 'Computer Networks', 'MIS', 'System Analysis and Design II'],
-];
-
-$years = [1, 2, 3];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $year = $_POST['year'];
-    $paper_year = $_POST['Paper_Year'];
-    $course = $_POST['course'];
-
-    // Check if a file is selected for upload
-    if ($_FILES["paper"]["error"] == UPLOAD_ERR_OK) {
-        $targetDir = "uploads/";
-        $fileName = basename($_FILES["paper"]["name"]);
-        $targetPath = $targetDir . $fileName;
-
-        // Check if the file already exists
-        if (file_exists($targetPath)) {
-            $uploadMessage = "File already exists.";
-        } else {
-            // Move the uploaded file to the target directory
-            if (move_uploaded_file($_FILES["paper"]["tmp_name"], $targetPath)) {
-                // File uploaded successfully, now insert into the database
-                $sql = "INSERT INTO papers (year, Paper_Year, course, paper_path) VALUES (?, ?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-
-                if ($stmt) {
-                    $stmt->bind_param("ssss", $year, $paper_year, $course, $targetPath);
-
-                    if ($stmt->execute()) {
-                        $uploadMessage = "File uploaded and record inserted into the database successfully!";
-                    } else {
-                        $uploadMessage = "Error inserting record into the database: " . $stmt->error;
-                    }
-                } else {
-                    $uploadMessage = "Error in SQL query: " . $conn->error;
-                }
-
-                $stmt->close();
-            } else {
-                $uploadMessage = "Error uploading file: Move operation failed.";
-            }
-        }
-    } else {
-        $uploadMessage = "Error uploading file: " . $_FILES["paper"]["error"];
-    }
-}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Upload Past Papers</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title> Past Papers</title>
+    
+   
+    <style>
+        .course-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .btn-sm {
+            font-size: 0.75rem;
+        }
+        
+        .download-button {
+            background-color: orange;
+            color: white;
+            border: none;
+            margin-right:8px ;
+            font-size: 15px;
+        }
+        .download-button:hover {
+            background-color: orange; 
+            color: white; 
+            
+        }
+        /* Apply the "Roboto" font to specific elements */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2 {
+            font-family: 'Roboto', sans-serif;
+        }
+        p {
+            font-family: 'Roboto', sans-serif;
+        }
+        /* Make the Paper_Year bold and set its color to blue */
+        .paper-year {
+            font-weight: bold;
+            color: blue; /* Shiny blue color */
+        }
+    </style>
+    
 </head>
-<body class="bg-light">
+<body>
+
     <div class="container mt-5">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">Admin Upload Past Papers</h3>
+        
+    <form method="GET" id="pastPapersForm">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="year" class="form-label">Select Year:</label>
+                    <select name="year" id="yearSelect" class="form-select">
+                        <option value="">Select Academic Year</option>
+                        <?php
+                        $years = [1, 2, 3];
+
+                        foreach ($years as $year) {
+                            $selected = ($year == $_GET['year']) ? "selected" : "";
+                            echo "<option value='$year' $selected>$year</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="course" class="form-label">Select Course:</label>
+                    <select name="course" id="courseSelect" class="form-select">
+                        <option value="">All Courses</option>
+                        <?php
+                        $selectedYear = $_GET['year'];
+                        $selectedCourse = $_GET['course'];
+
+                        // Define the course list array
+                        $courseLists = [
+                            '1' => ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
+                            '2' => ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
+                            '3' => ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
+                        ];
+
+                        if ($selectedYear && isset($courseLists[$selectedYear])) {
+                            foreach ($courseLists[$selectedYear] as $course) {
+                                $selected = ($course == $selectedCourse) ? "selected" : "";
+                                echo "<option value='$course' $selected>$course</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" style="visibility: hidden;">Hidden Label</label>
+                    <button type="submit" class="btn btn-primary form-control">Show Papers</button>
+                </div>
             </div>
-            <div class="card-body">
-                <?php if (isset($uploadMessage)) { ?>
-                    <div class="alert alert-info" role="alert">
-                        <?php echo $uploadMessage; ?>
-                    </div>
-                <?php } ?>
+        </form>
 
-                <form method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="year">Academic Year</label>
-                        <select name="year" class="form-control" onchange="populateCourses(this.value)">
-                            <option value="">Select Academic Year</option>
-                            <?php foreach ($years as $year) { ?>
-                                <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+        <?php
+        if ($selectedYear && $selectedCourse) {
+            // Fetch papers based on selected year and course
+            $sql = "SELECT * FROM past_papers WHERE year = ? AND course = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("is", $selectedYear, $selectedCourse);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-                    <div class="form-group">
-                        <label for="Paper_Year">Paper Year</label>
-                        <input type="text" name="Paper_Year" class="form-control" placeholder="Enter Paper Year" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="course">Course</label>
-                        <select name="course" class="form-control" id="courses">
-                            <!-- Courses will be populated dynamically -->
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="paper">File</label>
-                        <input type="file" name="paper" class="form-control-file" accept=".pdf" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </form>
-            </div>
-        </div>
+            if ($result->num_rows > 0) {
+                echo "<h2 class='mt-4'>Past Papers:</h2>";
+                while ($row = $result->fetch_assoc()) {
+                    echo "<div class='mb-3 course-info'>";
+                    echo "<div class='col-md-4'>";
+                    // Display the course name and bold blue Paper_Year
+                    echo "<p>{$row['course']} <span class='paper-year'>{$row['Paper_Year']}</span></p>";
+                    echo "</div>";
+                    echo "<div class='col-md-4'>";
+                    // Display "View" button with blue hover effect
+                    echo "<a href='{$row['paper_path']}' class='btn btn-primary btn-sm' target='_blank'>View</a> ";
+                    // Display "Download" button in orange with white text
+                    echo "<a href='{$row['paper_path']}' class='btn btn-warning btn-sm download-button' download>Download</a>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+            } else {
+                echo "<p>No papers available for the selected year and course.</p>";
+            }
+            $stmt->close();
+        } elseif ($selectedYear || $selectedCourse) {
+            echo "<p>No papers available for the selected year and course.</p>";
+        }
+        ?>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script>
-        function populateCourses(year) {
-            var coursesDropdown = document.getElementById("courses");
-            coursesDropdown.innerHTML = '<option value="">Select Course</option>';
-
-            if (year !== "") {
-                var courseList = <?php echo json_encode($courseLists); ?>;
-                var courses = courseList[year];
-
-                courses.forEach(function (course) {
-                    var option = document.createElement("option");
-                    option.value = course;
-                    option.text = course
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="bootstrap/js/jquery.min.js"></script>
+    <script src="bootstrap/js/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- Your JavaScript code here -->
+</body>
+</html>

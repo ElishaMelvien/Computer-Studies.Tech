@@ -2,7 +2,7 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="dashboard.php">
+            <a class="nav-link" href="dashboard.php?page=dashboard">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -18,11 +18,12 @@
         </li><!-- End Courses -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="dashboard.php?page=loadPastPapers">
-                <i class="bi bi-files"></i>
-                <span>Past Papers</span>
-            </a>
-        </li><!-- End Past Papers -->
+    <a class="nav-link collapsed" href="dashboard.php?page=loadPastPapers">
+        <i class="bi bi-files"></i>
+        <span>Past Papers</span>
+    </a>
+</li><!-- End Past Papers -->
+
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="dashboard.php?page=books">
@@ -53,10 +54,11 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="../logout.php">
+            <a class="nav-link collapsed" href="../logout.php?page=logout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>
             </a>
         </li><!-- End Logout Page Nav -->
     </ul>
-</aside><!-- End Sidebar-->
+</aside><!-- End Sidebar -->
+</main>
