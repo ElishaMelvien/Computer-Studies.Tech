@@ -8,6 +8,10 @@
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Add custom CSS for smaller buttons and inline display -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+
     <style>
         .course-info {
             display: flex;
@@ -60,7 +64,7 @@
 
 
     <div class="past-papers-form">
-    <form method="GET">
+    <form method="GET" id="pastPapersForm">
             <div class="row g-3">
                 <div class="col-md-4">
                     <label for="year" class="form-label">Select Year:</label>
@@ -106,8 +110,13 @@
                     <label class="form-label" style="visibility: hidden;">Hidden Label</label>
                     <button type="submit" class="btn btn-primary form-control">Show Papers</button>
                 </div>
+                <div id="pastPapersResult"></div>
             </div>
+            
         </form>
+
+        
+
 
     </div>
 
@@ -153,5 +162,57 @@
     <script src="bootstrap/js/popper.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- Your JavaScript code here -->
+<!-- Your JavaScript code here -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get references to the year and course select elements
+        var yearSelect = document.getElementById("yearSelect");
+        var courseSelect = document.getElementById("courseSelect");
+
+        // Define the course lists based on year
+        var courseLists = {
+            '1': ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
+            '2': ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
+            '3': ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
+        };
+
+        // Function to update courses based on the selected year
+        function updateCourses() {
+            // Get the selected year
+            var selectedYear = yearSelect.value;
+
+            // Clear existing options in the course select element
+            courseSelect.innerHTML = "";
+
+            // Add the default "All Courses" option
+            var allCoursesOption = document.createElement("option");
+            allCoursesOption.value = "";
+            allCoursesOption.textContent = "All Courses";
+            courseSelect.appendChild(allCoursesOption);
+
+            // Populate courses based on the selected year
+            if (selectedYear && courseLists[selectedYear]) {
+                courseLists[selectedYear].forEach(function(course) {
+                    var option = document.createElement("option");
+                    option.value = course;
+                    option.textContent = course;
+                    courseSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Attach an event listener to the year select element
+        yearSelect.addEventListener("change", updateCourses);
+
+        // Initial call to populate courses based on the default selected year
+        updateCourses();
+    });
+</script>
+
+
+
+
+
+    
 </body>
 </html>

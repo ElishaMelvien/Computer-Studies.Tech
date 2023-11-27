@@ -48,7 +48,8 @@ $profileName = $_SESSION["username"];
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+  
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">

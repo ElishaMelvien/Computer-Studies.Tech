@@ -52,6 +52,36 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Event listener for the form submission
+        $("#pastPapersForm").submit(function(event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Serialize form data
+            var formData = $(this).serialize();
+
+            // Send an AJAX request
+            $.ajax({
+                type: "GET",
+                url: "PastPaper.php", // Same page
+                data: formData,
+                success: function(response) {
+                    // Clear existing results
+                    $("#main").html("");  // Update the main container by replacing its content
+                    $("#main").html(response);
+                },
+                error: function(error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
 
 
 
