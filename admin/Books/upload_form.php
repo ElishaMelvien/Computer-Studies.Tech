@@ -65,24 +65,27 @@ $courseLists = [
         }
 
         .alert-error {
+            background-color: #f8d7da; /* Red background color */
+            color: #721c24; /* Dark red text color */
+            border: 1px solid #f5c6cb; /* Border color */
+            padding: 15px; /* Padding for better visibility */
+            border-radius: 4px; 
+            margin-top: 10px;
+        }
+
+        .alert-success {
+            background-color: #2eca6a; /* Green background color */
+            color: #155724; /* Dark green text color */
+            border: 1px solid #c3e6cb; /* Border color */
+            padding: 15px; /* Padding for better visibility */
+            border-radius: 4px; 
+            margin-top: 10px; 
+        }
+
+        .alert-danger {
     background-color: #f8d7da; /* Red background color */
     color: #721c24; /* Dark red text color */
-    border: 1px solid #f5c6cb; /* Border color */
-    padding: 15px; /* Padding for better visibility */
-    border-radius: 4px; 
-    margin-top: 10px;
 }
-
-.alert-success {
-    background-color: #2eca6a; /* Green background color */
-    color: #155724; /* Dark green text color */
-    border: 1px solid #c3e6cb; /* Border color */
-    padding: 15px; /* Padding for better visibility */
-    border-radius: 4px; 
-    margin-top: 10px; 
-}
-
-
     </style>
 </head>
 <body>
@@ -113,12 +116,13 @@ $courseLists = [
             <?php } ?>
         </select>
 
-        
-
         <label for="course">Course</label>
         <select name="course" id="courses">
             <!-- Courses will be populated dynamically -->
         </select>
+
+        <label for="book_title">Book Title</label>
+        <input type="text" name="book_title" required>
 
         <label for="book">File</label>
         <input type="file" name="book" accept=".pdf" required>

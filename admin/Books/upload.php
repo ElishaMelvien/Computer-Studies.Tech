@@ -11,6 +11,7 @@ $courseLists = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $academicYear = $_POST['academic_year'];
     $course = $_POST['course'];
+    $bookTitle = $_POST['book_title']; // New field for book title
 
     if ($_FILES["book"]["error"] == UPLOAD_ERR_OK) {
         $targetDir = "uploads/";
@@ -18,32 +19,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $targetPath = $targetDir . $fileName;
 
         if (file_exists($targetPath)) {
-            $uploadMessage = '<div class="alert-success">File already exists.</div>';
+            $uploadMessage = '<div class="alert alert-danger">File already exists. Please choose a different file.</div>';
         } else {
             if (move_uploaded_file($_FILES["book"]["tmp_name"], $targetPath)) {
-                $sql = "INSERT INTO books (academic_year, course, file_path) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO books (academic_year, course, book_title, file_path) VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
 
                 if ($stmt) {
-                    $stmt->bind_param("sss", $academicYear, $course, $targetPath);
+                    $stmt->bind_param("ssss", $academicYear, $course, $bookTitle, $targetPath);
 
                     if ($stmt->execute()) {
                         // Set the success message
-                        $uploadMessage = '<div class="alert-success">Book uploaded and record inserted into the database successfully!</div>';
+                        $uploadMessage = '<div class="alert alert-success">Book uploaded and record inserted into the database successfully!</div>';
                     } else {
-                        $uploadMessage = '<div class="alert-error">Error inserting record into the database: ' . $stmt->error . '</div>';
+                        $uploadMessage = '<div class="alert alert-danger">Error inserting record into the database: ' . $stmt->error . '</div>';
                     }
                 } else {
-                    $uploadMessage = '<div class="alert-error">Error in SQL query: ' . $conn->error . '</div>';
+                    $uploadMessage = '<div class="alert alert-danger">Error in SQL query: ' . $conn->error . '</div>';
                 }
 
                 $stmt->close();
             } else {
-                $uploadMessage = '<div class="alert-error">Error uploading file: Move operation failed.</div>';
+                $uploadMessage = '<div class="alert alert-danger">Error uploading file: Move operation failed.</div>';
             }
         }
     } else {
-        $uploadMessage = '<div class="alert-error">Error uploading file: ' . $_FILES["book"]["error"] . '</div>';
+        $uploadMessage = '<div class="alert alert-danger">Error uploading file: ' . $_FILES["book"]["error"] . '</div>';
     }
 
     // Echo the success or failure message
