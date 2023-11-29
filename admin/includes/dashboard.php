@@ -8,9 +8,14 @@
 <!-- Reports -->
 <!-- Counts the number of Users in the system-->
 <?php 
-$userCountQuery = "SELECT COUNT(*) as user_count FROM users";
+   $previous_UserCount = 5;
+   $userCountQuery = "SELECT COUNT(*) as user_count FROM users";
    $userResult = $conn->query($userCountQuery);
    $userCount = $userResult->fetch_assoc()['user_count'];
+
+   $User_increase = $userCount - $previous_UserCount;
+   $percentage = ($User_increase / $previous_UserCount) * 10;
+
    ?>
 
 <!-- Number of Admins in the system-->
@@ -78,9 +83,9 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?Php echo "Number of users: " . $userCount;
+                      <h6><?Php echo "users: " . $userCount;
 ?></h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <span class="text-danger small pt-1 fw-bold"><?php echo number_format($percentage) . '%'; ?></span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                     </div>
                   </div>

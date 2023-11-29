@@ -22,7 +22,7 @@ if ($result->num_rows > 0) {
 
     // Output DataTable template
     echo '<table class="table datatable" id="usersTable">';
-    echo '<thead>';
+    echo '<thead class="thead-dark" style="background: linear-gradient(to bottom, #1a1a1a, #000000); color: #fff;">';
     echo '<tr>';
     echo '<th scope="col">Id</th>';
     echo '<th scope="col">Username</th>';
@@ -32,6 +32,7 @@ if ($result->num_rows > 0) {
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
+  
 
     // Output data of each row
     while ($row = $result->fetch_assoc()) {
@@ -41,6 +42,7 @@ if ($result->num_rows > 0) {
         echo '<td>' . $row['email'] . '</td>';
         echo '<td>' . $row['role'] . '</td>';
         echo '<td>';
+        echo '<a href="edit.php?id=' . $row['id'] . '" class="btn btn-info btn-sm mr-2 edit-btn text-white">Edit</a>';
         echo '<button class="btn btn-danger btn-sm delete-btn" data-userid="' . $row['id'] . '">Delete</button>';
         echo '</td>';
         echo '</tr>';
