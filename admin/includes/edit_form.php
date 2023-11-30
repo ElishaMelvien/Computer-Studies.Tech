@@ -1,7 +1,5 @@
 
-<?php
-include 'header.php';
-?>
+
 
 <body>
 
@@ -19,19 +17,21 @@ include 'header.php';
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Edit User Form</h5>
-                                <form class="row g-3">
+                                <form class="row g-3" action="update_user.php" method="post">
+
                                     <div class="col-12">
                                         <label for="inputName" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="inputName">
+                                        <input type="text" class="form-control" id="inputName" name="username">
                                     </div>
                                     <div class="col-12">
                                         <label for="inputEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="inputEmail">
+                                        <input type="email" class="form-control" id="inputEmail" name="email">
                                     </div>
                                     <div class="col-12">
                                         <label for="inputPassword" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="inputPassword">
+                                        <input type="password" class="form-control" id="inputPassword" name="password">
                                     </div>
+                                    <input type="hidden" name="id" id="inputId">
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Update</button>
                                         <button type="reset" class="btn btn-secondary">Reset</button>
