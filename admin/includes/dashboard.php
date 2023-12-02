@@ -8,7 +8,7 @@
 <!-- Reports -->
 <!-- Counts the number of Users in the system-->
 <?php 
-   $previous_UserCount = 5;
+   $previous_UserCount = 2;
    $userCountQuery = "SELECT COUNT(*) as user_count FROM users";
    $userResult = $conn->query($userCountQuery);
    $userCount = $userResult->fetch_assoc()['user_count'];
@@ -46,11 +46,6 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
 
 
 
-
-
-
-
-
 <main id="main" class="main">
 <div class="pagetitle">
       <h1>Dashboard</h1>
@@ -65,6 +60,8 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
     <section class="section dashboard">
       <div class="row">
 
+
+      
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
@@ -311,7 +308,76 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
               </div>
             </div><!-- End Reports -->
 
-  
+            
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Course Upload</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Upload Course</h2>
+        <form action="upload_course.php" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="courseName">Course Name:</label>
+                <input type="text" class="form-control" name="courseName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="courseTitle">Course Title:</label>
+                <input type="text" class="form-control" name="courseTitle" required>
+            </div>
+
+            <div class="form-group">
+                <label for="courseDescription">Course Description:</label>
+                <textarea class="form-control" name="courseDescription" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="courseLink">Read More Link:</label>
+                <input type="text" class="form-control" name="courseLink" required>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Duration:</label>
+                <input type="text" class="form-control" name="duration" required>
+            </div>
+
+            <div class="form-group">
+                <label for="courseContent">Course Content:</label>
+                <textarea class="form-control" name="courseContent" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="coursePdfFile">Upload Course Material PDF:</label>
+                <input type="file" class="form-control-file" name="coursePdfFile" accept=".pdf" required>
+                <small class="form-text text-muted">Upload a PDF file for course material.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="courseImage">Upload Course Image (JPEG, PNG, GIF):</label>
+                <input type="file" class="form-control-file" name="courseImage" accept=".jpeg, .jpg, .png, .gif" required>
+                <small class="form-text text-muted">Upload an image for the course.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary" name="submit">Upload Course</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (optional, for certain features) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
 
 
  

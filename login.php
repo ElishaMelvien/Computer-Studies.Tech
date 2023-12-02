@@ -12,12 +12,16 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$errorMsg = "";
+$errorOccurred = false;
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
     
     if (empty($username) || empty($password)) {
-        echo "Invalid Username and Password!";
+        $errorMsg = "Invalid Username and Password!";
+        $errorOccurred = true;
     } else {
         // Check in the admin table
         $admin_sql = "SELECT id, username, password, role FROM admin WHERE username = ? LIMIT 1";
@@ -50,10 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                     exit;
                 } else {
-                    echo "Incorrect password.";
+                    
+                    $errorMsg = "Incorrect password.";
+                    $errorOccurred = true;
                 }
             } else {
-                echo "User not found.";
+                $errorMsg =  "User not found.";
+                $errorOccurred = true;
             }
         } else {
             // Admin login successful
@@ -72,7 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
                 exit;
             } else {
-                echo "Incorrect password.";
+                $errorMsg = "Incorrect password!";
+                $errorOccurred = true;
             }
         }
     }
@@ -132,6 +140,24 @@ if (isset($_SESSION["username"])) {
     <!-- Template Main CSS File -->
     <link href="C:\Users\User\Desktop\Computer Studies.Tech\css\style.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+
+    <style>
+        @keyframes blink {
+            0% { opacity: 5 }
+            50% { opacity: 4; }
+            100% { opacity: 7; }
+        }
+
+        .blink {
+            animation: blink 1.2s infinite;
+        }
+    </style>
+
+
+
+
+
+
 </head>
 
 <body>
@@ -158,7 +184,13 @@ if (isset($_SESSION["username"])) {
 
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
-
+                                    <?php if ($errorOccurred && !empty($errorMsg)): ?>
+            <div class="alert alert-danger mt-3 blink">
+                <?php echo $errorMsg; ?>
+            </div>
+        <?php endif; ?>
+                                   
+ 
                                     
                                     <!-- Update the form action to point to your PHP login code -->
                                     <form action="login.php" method="post" class="row g-3 needs-validation" novalidate>
@@ -185,7 +217,7 @@ if (isset($_SESSION["username"])) {
                                             <button class="btn btn-primary w-100" type="submit">Login</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0">Don't have an account? <a href="register.html">Create an account</a></p>
+                                            <p class="small mb-0">Don't have an account? <a href="register.php">Create an account</a></p>
                                         </div>
                                     </form>
                                 </div>

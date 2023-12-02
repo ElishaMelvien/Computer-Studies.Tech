@@ -14,6 +14,8 @@
       </nav>
     </div><!-- End Page Title -->
 
+    
+
    <div id="content">
     <?php
     // Check if the 'page' parameter is set in the URL
@@ -50,7 +52,6 @@
 
 </main>
 
-
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -65,11 +66,10 @@
             // Send an AJAX request
             $.ajax({
                 type: "GET",
-                url: "PastPaper.php", // Same page
+                url: "pastpapers.php", // Corrected filename
                 data: formData,
                 success: function(response) {
-                    // Clear existing results
-                    $("#main").html("");  // Update the main container by replacing its content
+                    // Update the main container by replacing its content
                     $("#main").html(response);
                 },
                 error: function(error) {
@@ -79,15 +79,6 @@
         });
     });
 </script>
-
-
-
-
-
-
-
-
-
 
 
 <?php include('footer.php'); ?>

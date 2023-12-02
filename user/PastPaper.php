@@ -6,11 +6,15 @@
     <!-- Include Google Fonts (Roboto) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
     <!-- Add custom CSS for smaller buttons and inline display -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 
     <style>
         .course-info {
@@ -26,13 +30,12 @@
             background-color: orange;
             color: white;
             border: none;
-            margin-right:8px ;
+            margin-right: 8px;
             font-size: 15px;
         }
         .download-button:hover {
             background-color: orange; 
             color: white; 
-            
         }
         /* Apply the "Roboto" font to specific elements */
         body {
@@ -50,169 +53,182 @@
             color: blue; /* Shiny blue color */
         }
 
-        .past-papers-form{
+        .past-papers-form {
             padding: 4rem;
         }
     </style>
-    
 </head>
 <body>
-<!-- <a href="../../logout.php" class="btn btn-primary" style="margin-bottom: 10px;">Logout</a>
-    <div class="container mt-5">
-        <h1 class="display-4"> Past Papers</h1> -->
-
-
 
     <div class="past-papers-form">
-    <form method="GET" id="pastPapersForm">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label for="year" class="form-label">Select Year:</label>
-                    <select name="year" id="yearSelect" class="form-select">
-                        <option value="">Select Academic Year</option>
-                        <?php
-                        include "config.php"; // Include the database configuration
+    <h1>Past Papers</h1>
 
-                        $years = [1, 2, 3]; // Add the years 1, 2, and 3 to the array
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="year" class="form-label">Select Year:</label>
+                <select name="year" id="yearSelect" class="form-select">
+                    <option value="">Select Academic Year</option>
+                    <?php
+                    include "config.php"; // Include the database configuration
 
-                        foreach ($years as $year) {
-                            $selected = ($year == $_GET['year']) ? "selected" : "";
-                            echo "<option value='$year' $selected>$year</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="course" class="form-label">Select Course:</label>
-                    <select name="course" id="courseSelect" class="form-select">
-                        <option value="">All Courses</option>
-                        <?php
-                        $selectedYear = $_GET['year'];
-                        $selectedCourse = $_GET['course'];
+                    $years = [1, 2, 3]; // Add the years 1, 2, and 3 to the array
 
-                        // Define the course list array
-                        $courseLists = [
-                            '1' => ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
-                            '2' => ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
-                            '3' => ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
-                        ];
-
-                        if ($selectedYear && isset($courseLists[$selectedYear])) {
-                            foreach ($courseLists[$selectedYear] as $course) {
-                                $selected = ($course == $selectedCourse) ? "selected" : "";
-                                echo "<option value='$course' $selected>$course</option>";
-                            }
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label" style="visibility: hidden;">Hidden Label</label>
-                    <button type="submit" class="btn btn-primary form-control">Show Papers</button>
-                </div>
-                <div id="pastPapersResult"></div>
+                    foreach ($years as $year) {
+                        $selected = ($year == $_GET['year']) ? "selected" : "";
+                        echo "<option value='$year' $selected>$year</option>";
+                    }
+                    ?>
+                </select>
             </div>
-            
-        </form>
+            <div class="col-md-4">
+                <label for="course" class="form-label">Select Course:</label>
+                <select name="course" id="courseSelect" class="form-select">
+                    <option value="">All Courses</option>
+                    <?php
+                    $selectedYear = $_GET['year'];
+                    $selectedCourse = $_GET['course'];
 
-        
+                    // Define the course list array
+                    $courseLists = [
+                        '1' => ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
+                        '2' => ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
+                        '3' => ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
+                    ];
 
+                    if ($selectedYear && isset($courseLists[$selectedYear])) {
+                        foreach ($courseLists[$selectedYear] as $course) {
+                            $selected = ($course == $selectedCourse) ? "selected" : "";
+                            echo "<option value='$course' $selected>$course</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" style="visibility: hidden;">Hidden Label</label>
+                <!-- The button to trigger the fetching and displaying of papers -->
+                <button type="button" id="showPapersButton" class="btn btn-primary form-control">Show Papers</button>
+            </div>
+        </div>
+
+        <!-- DataTable to display the past papers -->
+        <table id="pastPapersTable" class="display">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Paper Year</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // PHP code to fetch and display past papers goes here
+                ?>
+            </tbody>
+        </table>
 
     </div>
 
-        <?php
-        if ($selectedYear && $selectedCourse) {
-            // Fetch papers based on selected year and course
-            $sql = "SELECT * FROM past_papers WHERE year = ? AND course = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("is", $selectedYear, $selectedCourse);
-            $stmt->execute();
-            $result = $stmt->get_result();
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var yearSelect = document.getElementById("yearSelect");
+            var courseSelect = document.getElementById("courseSelect");
+            var showPapersButton = document.getElementById("showPapersButton");
 
-            if ($result->num_rows > 0) {
-                echo "<h2 class='mt-4'>Past Papers:</h2>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<div class='mb-3 course-info'>";
-                    echo "<div class='col-md-4'>";
-                    // Display the course name and bold blue Paper_Year
-                    echo "<p>{$row['course']} <span class='paper-year'>{$row['Paper_Year']}</span></p>";
-                    echo "</div>";
-                    echo "<div class='col-md-4'>";
-                    // Display "View" button with blue hover effect
-                    echo "<a href='../admin/PastPapers/{$row['paper_path']}' class='btn btn-primary btn-sm' target='_blank'>View</a>";
-                    echo "<a href='../admin/PastPapers/{$row['paper_path']}' class='btn btn-warning btn-sm download-button' download>Download</a>"; 
+            var courseLists = {
+                '1': ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
+                '2': ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
+                '3': ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
+            };
 
+            // DataTable configuration
+            var dataTable = $('#pastPapersTable').DataTable({
+                searching: false,
+                lengthChange: false,
+                ordering: false,
+                info: false,
+                paging: false
+            });
 
-                  
-                    echo "</div>";
-                    echo "</div>";
+            function updateCourses() {
+                var selectedYear = yearSelect.value;
+                courseSelect.innerHTML = "";
+
+                var allCoursesOption = document.createElement("option");
+                allCoursesOption.value = "";
+                allCoursesOption.textContent = "All Courses";
+                courseSelect.appendChild(allCoursesOption);
+
+                if (selectedYear && courseLists[selectedYear]) {
+                    courseLists[selectedYear].forEach(function (course) {
+                        var option = document.createElement("option");
+                        option.value = course;
+                        option.textContent = course;
+                        courseSelect.appendChild(option);
+                    });
                 }
-            } else {
-                echo "<p>No papers available for the selected year and course.</p>";
             }
-            $stmt->close();
-        } elseif ($selectedYear || $selectedCourse) {
-            echo "<p>No papers available for the selected year and course.</p>";
-        }
-        ?>
-    </div>
 
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="bootstrap/js/jquery.min.js"></script>
-    <script src="bootstrap/js/popper.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- Your JavaScript code here -->
-<!-- Your JavaScript code here -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get references to the year and course select elements
-        var yearSelect = document.getElementById("yearSelect");
-        var courseSelect = document.getElementById("courseSelect");
+            function fetchAndDisplayPapers() {
+                var selectedYear = yearSelect.value;
+                var selectedCourse = courseSelect.value;
 
-        // Define the course lists based on year
-        var courseLists = {
-            '1': ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
-            '2': ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
-            '3': ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
-        };
+                // Clear previous DataTable entries
+                dataTable.clear().draw();
 
-        // Function to update courses based on the selected year
-        function updateCourses() {
-            // Get the selected year
-            var selectedYear = yearSelect.value;
-
-            // Clear existing options in the course select element
-            courseSelect.innerHTML = "";
-
-            // Add the default "All Courses" option
-            var allCoursesOption = document.createElement("option");
-            allCoursesOption.value = "";
-            allCoursesOption.textContent = "All Courses";
-            courseSelect.appendChild(allCoursesOption);
-
-            // Populate courses based on the selected year
-            if (selectedYear && courseLists[selectedYear]) {
-                courseLists[selectedYear].forEach(function(course) {
-                    var option = document.createElement("option");
-                    option.value = course;
-                    option.textContent = course;
-                    courseSelect.appendChild(option);
-                });
+                if (selectedYear && selectedCourse) {
+                    // AJAX request to fetch papers from the server
+                    $.ajax({
+                        url: 'fetch_pastpaper.php', // Replace with the actual path to your server-side script
+                        type: 'GET',
+                        data: { year: selectedYear, course: selectedCourse },
+                        dataType: 'json',
+                        success: function (papers) {
+                            displayPapers(papers);
+                        },
+                        error: function () {
+                            // Display an error message
+                            console.error("Error fetching papers from the server.");
+                        }
+                    });
+                }
             }
-        }
 
-        // Attach an event listener to the year select element
-        yearSelect.addEventListener("change", updateCourses);
+            function displayPapers(papers) {
+                if (papers.length > 0) {
+                    papers.forEach(function (row) {
+                        // Add a new row to the DataTable
+                        dataTable.row.add([
+                            row.course,
+                            row.Paper_Year,
+                            "<a href='../admin/PastPapers/" + row.paper_path + "' class='btn btn-primary btn-sm' target='_blank'>View</a>" +
+                            "<a href='../admin/PastPapers/" + row.paper_path + "' class='btn btn-warning btn-sm download-button' style='color: white;' download>Download</a>"
+                        ]).draw();
+                    });
+                } else {
+                    // Display a message in case no papers are available
+                    console.warn("No papers available for the selected year and course.");
+                }
+            }
 
-        // Initial call to populate courses based on the default selected year
-        updateCourses();
-    });
-</script>
+            yearSelect.addEventListener("change", function () {
+                updateCourses();
+                fetchAndDisplayPapers();
+            });
 
+            courseSelect.addEventListener("change", function () {
+                fetchAndDisplayPapers();
+            });
 
+            // Initial call to populate courses based on the default selected year
+            updateCourses();
 
+            // Attach click event to the "Show Papers" button
+            showPapersButton.addEventListener("click", function () {
+                fetchAndDisplayPapers();
+            });
+        });
+    </script>
 
-
-    
 </body>
 </html>
