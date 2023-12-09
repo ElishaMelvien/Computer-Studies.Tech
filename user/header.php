@@ -25,7 +25,7 @@ $profileName = $_SESSION["username"];
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Admin Dashboard</title>
+  <title>Leaner Dashboard</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

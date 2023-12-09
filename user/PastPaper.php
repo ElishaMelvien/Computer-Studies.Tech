@@ -56,6 +56,9 @@
         .past-papers-form {
             padding: 4rem;
         }
+        h1{
+            color:blue;
+        }
     </style>
 </head>
 <body>
@@ -104,11 +107,11 @@
                     ?>
                 </select>
             </div>
-            <div class="col-md-2">
+            <!-- Remove the following div and its content -->
+            <!-- <div class="col-md-2">
                 <label class="form-label" style="visibility: hidden;">Hidden Label</label>
-                <!-- The button to trigger the fetching and displaying of papers -->
                 <button type="button" id="showPapersButton" class="btn btn-primary form-control">Show Papers</button>
-            </div>
+            </div> -->
         </div>
 
         <!-- DataTable to display the past papers -->
@@ -133,7 +136,6 @@
         document.addEventListener("DOMContentLoaded", function () {
             var yearSelect = document.getElementById("yearSelect");
             var courseSelect = document.getElementById("courseSelect");
-            var showPapersButton = document.getElementById("showPapersButton");
 
             var courseLists = {
                 '1': ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
@@ -201,8 +203,9 @@
                         dataTable.row.add([
                             row.course,
                             row.Paper_Year,
-                            "<a href='../admin/PastPapers/" + row.paper_path + "' class='btn btn-primary btn-sm' target='_blank'>View</a>" +
+                            "<a href='../admin/PastPapers/" + row.paper_path + "' class='btn btn-primary btn-sm' target='_blank'>View</a>&nbsp;" +
                             "<a href='../admin/PastPapers/" + row.paper_path + "' class='btn btn-warning btn-sm download-button' style='color: white;' download>Download</a>"
+
                         ]).draw();
                     });
                 } else {
@@ -222,11 +225,6 @@
 
             // Initial call to populate courses based on the default selected year
             updateCourses();
-
-            // Attach click event to the "Show Papers" button
-            showPapersButton.addEventListener("click", function () {
-                fetchAndDisplayPapers();
-            });
         });
     </script>
 

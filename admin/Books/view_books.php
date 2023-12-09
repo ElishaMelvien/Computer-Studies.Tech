@@ -8,6 +8,9 @@ $courseLists = [
     '3' => ['Advanced Programming', 'Computer Networks', 'MIS', 'System Analysis and Design II'],
 ];
 
+// Set the base path for file downloads
+$basePath = '../admin/Books/Uploads/';
+
 // Fetch distinct academic years from the database
 function getDistinctYears() {
     global $conn, $years;
@@ -63,6 +66,14 @@ function getBooksFromDB($academicYear, $course) {
 
 $distinctYears = getDistinctYears();
 ?>
+
+<style>
+    h2{
+        color:blue;
+    }
+
+
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,25 +139,14 @@ $distinctYears = getDistinctYears();
                         <td>
 
                         <?php
-if (isset($book['file_path'])) {
-    // Adjust the base path as needed
-    $basePath = 'Uploads/';  // Adjust this based on your folder structure
-    $filePath = rawurlencode($book['file_path']);
-
-    // Add a trailing slash if needed
-    if (substr($basePath, -1) !== '/') {
-        $basePath .= '/';
-    }
-
-    $downloadLink = $basePath . $filePath;
-    echo '<a href="' . $downloadLink . '" target="_blank">Download</a>';
-} else {
-    echo 'N/A';
-}
-?>
-
-    
-
+                        if (isset($book['file_path'])) {
+                            $fileName = basename($book['file_path']);
+                            $downloadLink = $basePath . $fileName;
+                            echo '<a href="' . $downloadLink . '" target="_blank">Download</a>';
+                        } else {
+                            echo 'N/A';
+                        }
+                        ?>
 
                         </td>
                     </tr>

@@ -248,6 +248,7 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
+               
 
                   <script>
                     document.addEventListener("DOMContentLoaded", () => {
@@ -306,78 +307,39 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
                 </div>
 
               </div>
+              <button id="generateReportBtn" class="btn btn-primary mt-3">Generate Reports</button>
             </div><!-- End Reports -->
-
             
-            <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Course Upload</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h2 class="mt-5">Upload Course</h2>
-        <form action="upload_course.php" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="courseName">Course Name:</label>
-                <input type="text" class="form-control" name="courseName" required>
-            </div>
-
-            <div class="form-group">
-                <label for="courseTitle">Course Title:</label>
-                <input type="text" class="form-control" name="courseTitle" required>
-            </div>
-
-            <div class="form-group">
-                <label for="courseDescription">Course Description:</label>
-                <textarea class="form-control" name="courseDescription" rows="5" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="courseLink">Read More Link:</label>
-                <input type="text" class="form-control" name="courseLink" required>
-            </div>
-
-            <div class="form-group">
-                <label for="duration">Duration:</label>
-                <input type="text" class="form-control" name="duration" required>
-            </div>
-
-            <div class="form-group">
-                <label for="courseContent">Course Content:</label>
-                <textarea class="form-control" name="courseContent" rows="5" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="coursePdfFile">Upload Course Material PDF:</label>
-                <input type="file" class="form-control-file" name="coursePdfFile" accept=".pdf" required>
-                <small class="form-text text-muted">Upload a PDF file for course material.</small>
-            </div>
-
-            <div class="form-group">
-                <label for="courseImage">Upload Course Image (JPEG, PNG, GIF):</label>
-                <input type="file" class="form-control-file" name="courseImage" accept=".jpeg, .jpg, .png, .gif" required>
-                <small class="form-text text-muted">Upload an image for the course.</small>
-            </div>
-
-            <button type="submit" class="btn btn-primary" name="submit">Upload Course</button>
-        </form>
-    </div>
-
-    <!-- Bootstrap JS (optional, for certain features) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
-</html>
+     
 
 
+<script>
+  document.getElementById('generateReportBtn').addEventListener('click', function () {
+    // Use AJAX to call the generateReport.php file
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'generateReports.php', true);
+    xhr.responseType = 'blob'; // Set the response type to blob
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                // Report generated successfully
+                var blob = new Blob([xhr.response], { type: 'application/pdf' });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'report.pdf';
+                link.click();
+            } else {
+                // Report generation failed
+                alert('Error generating PDF Report!');
+            }
+        }
+    };
+    xhr.send();
+});
 
+  
+
+</script>
 
 
  
@@ -526,6 +488,45 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+  $(document).on('click', '#loadCourses', function() {
+    $('#main').load('../courses/course_form.php', function() {
+        // Add event listeners or perform other actions after the content is loaded
+        // For example, reattach your form submission logic here
+        $(document).on('submit', '#courseform', function(e) {
+            e.preventDefault();
+
+            // Serialize the form data
+            var formData = new FormData(this);
+
+            // Submit the form data using AJAX
+            $.ajax({
+                url: '../courses/upload_course.php', // Correct relative path
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    // Check if the response contains the success message
+                    if (response.includes("Course uploaded successfully!")) {
+                        // Insert the success message dynamically with a specific class
+                        $('#main').html('<div class="alert-success">' + response + '</div>');
+                    } else {
+                        // Handle other responses or errors
+                        $('#main').html(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+});
+
+
+</script>
 
 
 
