@@ -122,8 +122,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
                                             <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            <div class="invalid-feedback"><?php echo $passwordError; ?></div>
+                                            <div class="invalid-feedback" id="passwordError"><?php echo $passwordError; ?></div>
                                         </div>
+
+                                        <div class="col-12">
+                                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirmPassword" required>
+                                            <div class="invalid-feedback" id="confirmPasswordError"></div>
+                                        </div>
+
+
+
                                         <div class="col-12">
                                             <div class="form-check">
                                                 <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
@@ -146,6 +155,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </section>
         </div>
+
+        <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var passwordInput = document.getElementById('yourPassword');
+        var confirmPasswordInput = document.getElementById('confirmPassword');
+        var passwordError = document.getElementById('passwordError');
+        var confirmPasswordError = document.getElementById('confirmPasswordError');
+
+        function validatePassword() {
+            if (passwordInput.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters long.';
+            } else {
+                passwordError.textContent = '';
+            }
+        }
+
+        function validateConfirmPassword() {
+            if (confirmPasswordInput.value !== passwordInput.value) {
+                confirmPasswordError.textContent = 'Passwords do not match.';
+            } else {
+                confirmPasswordError.textContent = '';
+            }
+        }
+
+        passwordInput.addEventListener('input', validatePassword);
+        confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            validatePassword();
+            validateConfirmPassword();
+
+            if (passwordError.textContent || confirmPasswordError.textContent) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+
+
     </main><!-- End #main -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <!-- Vendor JS Files -->

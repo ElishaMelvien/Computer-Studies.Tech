@@ -354,8 +354,7 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
 <script>
   $(document).on('click', '#loadPastPapers', function() {
     $('#main').load('../PastPapers/upload_form.php', function() {
-        // Add event listeners or perform other actions after the content is loaded
-        // For example, reattach your form submission logic here
+        
         $(document).on('submit', '#pastPaperForm', function(e) {
             e.preventDefault();
 
@@ -390,9 +389,64 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
  
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    $(document).on('click', '#Quiz', function () {
+        // Load the quiz form dynamically into the main section
+        $('#main').load('quiz_form.php', function () {
+            // Add event listeners or perform other actions after the content is loaded
+            // For example, reattach your form submission logic here
+            $(document).on('submit', '#quizForm', function (e) {
+                e.preventDefault();
+
+                // Serialize the form data
+                var formData = new FormData(this);
+
+                // Submit the form data using AJAX
+                $.ajax({
+                    url: 'quiz_upload.php', // Correct relative path
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        // Check if the response contains the success message
+                        if (response.includes("Quiz submitted successfully!")) {
+                            // Show SweetAlert success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Quiz Submitted!',
+                                text: 'Quiz submitted successfully!',
+                            });
+
+                            // Insert the success message dynamically with a specific class
+                            $('#main').html('<div class="alert alert-success">' + response + '</div>');
+                        } else {
+                            // Show SweetAlert error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to submit quiz. Please try again.',
+                            });
+
+                            // Handle other responses or errors
+                            $('#main').html(response);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    });
+
+</script>
 
 
 
+ 
 <script>
     
     function loadDataTable() {

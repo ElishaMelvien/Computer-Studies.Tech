@@ -59,12 +59,6 @@
 
 
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" id="Profile">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
 
   
     <a class="nav-link collapsed" href="../../logout.php">

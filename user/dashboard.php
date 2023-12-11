@@ -33,11 +33,13 @@
                 // Include the form for displaying past papers
                 include 'PastPaper.php';
                 break;
-            
 
-          
-
-            
+        case 'quiz':
+                    
+                include 'quiz.php';
+                break;
+        
+                
             break;
         case 'books':
             

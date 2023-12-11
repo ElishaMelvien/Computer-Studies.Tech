@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 } else {
     // Redirect if the form is not submitted
-    
+    header("Location: admin_panel.php");
     exit();
 }
 ?>
