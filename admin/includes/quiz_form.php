@@ -127,7 +127,7 @@
 
             <?php
             // Display 20 question groups
-            for ($i = 1; $i <= 19; $i++) {
+            for ($i = 1; $i <= 5; $i++) {
                 echo "<div class='question-group " . ($i === 1 ? 'active' : '') . "'>";
                 echo "<div class='form-group'>";
                 echo "<label for='question$i'>Question $i:</label>";
@@ -163,7 +163,7 @@
             ?>
 
             <div class="btn-container">
-                <div class="progress-text" id="progressText">Question 1 / 20</div>
+                <div class="progress-text" id="progressText">Question 1 / 5</div>
                 <button type="button" class="btn btn-primary" onclick="showNextQuestion()">Next</button>
                 <button type="submit" class="btn btn-success" id="uploadButton" style="display: none;" onclick="submitQuiz()">Submit Quiz</button>
             </div>
@@ -172,7 +172,7 @@
 
     <script>
     let currentQuestion = 1;
-    const totalQuestions = 20;
+    const totalQuestions = 5;
 
     function showNextQuestion() {
         const activeQuestionGroup = document.querySelector('.question-group.active');

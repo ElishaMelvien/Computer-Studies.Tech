@@ -3,16 +3,16 @@
 include 'config.php';
 
 // Fetch questions from the database
-// Fetch questions from the database
-$sql = "SELECT qno, question, ans1, ans2, ans3, ans4, correct_answer FROM questions";
+$sql = "SELECT * FROM questions";
 $questions_result = $conn->query($sql);
 
 $questions = array();
 
 if ($questions_result->num_rows > 0) {
+    $questionNumber = 1; // Initialize question number
     while ($row = $questions_result->fetch_assoc()) {
         $question = array(
-            "question" => array($row['qno'] . ". " . $row['question']),
+            "question" => array("{$questionNumber}. {$row['question_text']}"),
             "answers" => array(
                 array("text" => $row['ans1'], "correct" => $row['correct_answer'] == 1),
                 array("text" => $row['ans2'], "correct" => $row['correct_answer'] == 2),
@@ -21,73 +21,127 @@ if ($questions_result->num_rows > 0) {
             )
         );
         array_push($questions, $question);
+        $questionNumber++; // Increment question number
     }
 }
-
 
 $conn->close();
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Assessment</title>
-    <!-- link css -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
     <!-- box icon -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
+        .app {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .quiz {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #answer-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 150%;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: grey;
+        }
+
+        .btn.correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn.incorrect {
+            background-color: #FF0000;
+            color: white;
+        }
+
+        #next-btn {
+            width: 10%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #timer {
+            margin-top: 10px;
+            font-size: 18px;
+            color:blue;
+        }
+    h1{
+        color:blue;
+    }
+    #logo {
+            width: 60px; /* Adjust the width as needed */
+            height: auto;
+            margin-top: -10px; /* Adjust the margin to position it */
+        }
+    </style>
+</head>
 <body>
     <div class="app">
-        <h1>Question</h1>
+    <img id="logo" src="img/trophy.png" alt="Logo">
+        <h1 class="mb-4">Online Assessment</h1>
         <div class="quiz">
             <h2 id="question">Your Question is here</h2>
-            <div id="answer-buttons">
-                <button class="btn">Answer1</button>
-                <button class="btn">Answer2</button>
-                <button class="btn">Answer3</button>
-                <button class="btn">Answer4</button>
+            <div id="answer-buttons" class="vertical">
             </div>
-            <button id="next-btn">Next</button>
+            <button id="next-btn" style="display: none;">Next</button>
 
             <p id="timer">Time Left: <span id="countdown"></span> S</p>
-
-            <!-- User Details Form -->
-            <form action="insert.php" id="myForm" method="post" style="display: none;">
-                <h2 style="margin-top: 20px;">User Details</h2>
-
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required style="margin-left: 120px;"><br><br>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required style="margin-left: 120px;"><br><br>
-
-                <label for="number">Mobile Phone Number:</label>
-                <input type="number" id="number" name="number" required style="margin-left: 10px;"><br><br>
-
-                <label for="email">Current Workplace:</label>
-                <input type="text" id="work" name="work" required style="margin-left: 35px;"><br><br>
-
-                <input type="submit" value="Submit" class="submit" style="
-                        background: #001e4d;
-                        color: #fff;
-                        font-weight: 200;
-                        font-size: 12px;
-                        width: 150px;
-                        border: 0;
-                        padding: 10px;
-                        margin: 20px auto 0;
-                        border-radius: 5px;
-                        cursor: pointer;">
-            </form>
-            <!-- End User Details Form -->
-
         </div>
     </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
     <!-- JavaScript -->
     <script>
@@ -95,15 +149,16 @@ $conn->close();
         const questionElement = document.getElementById("question");
         const answerButtons = document.getElementById("answer-buttons");
         const nextButton = document.getElementById("next-btn");
+        const submitButton = document.getElementById("submit-btn");
         const timerElement = document.getElementById("timer");
         const countdownElement = document.getElementById("countdown");
         let currentQuestionIndex = 0;
         let score = 0;
-        let timeLeft = 600;
+        let timeLeft = 60;
 
         let timerInterval;
 
-        // start the timer
+        // Start the timer
         function startTimer() {
             timerInterval = setInterval(() => {
                 timeLeft--;
@@ -118,32 +173,32 @@ $conn->close();
             }, 1000);
         }
 
-        // stop the timer
+        // Stop the timer
         function stopTimer() {
             clearInterval(timerInterval);
         }
 
-        // hide the Next button
+        // Hide the Next button
         function hideNextButton() {
             nextButton.style.display = "none";
         }
 
-        // hide the submit button
+        // Hide the submit button
         function hideSubmitButton() {
             submitButton.style.display = "none";
         }
 
-        // show the Next button
+        // Show the Next button
         function showNextButton() {
             nextButton.style.display = "block";
         }
 
-        // show the Submit button
+        // Show the Submit button
         function showSubmitButton() {
             submitButton.style.display = "block";
         }
 
-        // show a question
+        // Show a question
         function showQuestion() {
             resetState();
             const currentQuestion = questions[currentQuestionIndex];
@@ -158,7 +213,7 @@ $conn->close();
             startTimer();
         }
 
-        // reset the answer buttons
+        // Reset the answer buttons
         function resetState() {
             while (answerButtons.firstChild) {
                 answerButtons.removeChild(answerButtons.firstChild);
@@ -166,7 +221,7 @@ $conn->close();
             countdownElement.textContent = timeLeft;
         }
 
-        // handle answer selection
+        // Handle answer selection
         function selectAnswer(selectedIndex) {
             stopTimer(); // Stop the timer when an answer is selected
             const currentQuestion = questions[currentQuestionIndex];
@@ -179,7 +234,7 @@ $conn->close();
             showNextButton();
         }
 
-        // handle next question
+        // Handle next question
         function handleNextButtonClick() {
             currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
@@ -190,44 +245,39 @@ $conn->close();
             }
         }
 
-        // show the final score
+        // Show the final score
         function showScore() {
             resetState();
             questionElement.innerHTML = `Your score: ${score} out of ${questions.length * 5}`;
             hideNextButton();
         }
 
-        // start the quiz
+        // Start the quiz
         function startQuiz() {
             currentQuestionIndex = 0;
             score = 0;
             showQuestion();
         }
 
-        // quiz start
+        // Quiz start
         startQuiz();
 
         // Event listener for the Next button
         nextButton.addEventListener("click", handleNextButtonClick);
 
         // Details form
-
         document.addEventListener("DOMContentLoaded", function () {
-
             const myForm = document.getElementById("myForm");
-            const submitButton = document.getElementById("submit-btn");
 
             submitButton.addEventListener("click", function () {
                 if (myForm.style.display === "none" || myForm.style.display === "") {
                     myForm.style.display = "block";
-                    hideSubmitButton();
+                    hideSubmitButton()
                 } else {
                     myForm.style.display = "none";
                 }
             });
         });
-
     </script>
 </body>
-
 </html>
