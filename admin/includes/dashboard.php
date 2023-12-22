@@ -44,6 +44,13 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
    $booksCount = $booksResult->fetch_assoc()['books_count'];
 ?>
 
+<?php
+  $coursesCountQuery = "SELECT COUNT(*) as courses_count FROM courses";
+  $coursesResult = $conn->query($coursesCountQuery);
+  $coursesCount = $coursesResult->fetch_assoc()['courses_count'];
+?>
+
+
 
 
 <main id="main" class="main">
@@ -230,7 +237,7 @@ $adminCount = $adminResult->fetch_assoc()['admin_count'];
                       <i class="bi bi-film"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo "" . $booksCount;?></h6>
+                      <h6><?php echo "" . $coursesCount;?></h6>
                     </div>
                   </div>
                 </div>

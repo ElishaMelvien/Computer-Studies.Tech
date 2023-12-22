@@ -38,7 +38,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>COMPUTERSTUDIES</h2>
+            <h2 class="m-0 text-primary"><i class="fa fa-desktop me-3"></i>COMPUTERSTUDIES</h2>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -105,50 +105,7 @@
     <!-- Carousel End -->
 
 
-    <!-- Service Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
-                            <h5 class="mb-3">Skilled Instructors</h5>
-                            <p>We have Skilled instructors for each and every course.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-files text-primary mb-4"></i>
-                            <h5 class="mb-3">TEVETA Past Papers</h5>
-                            <p>Download Past Papers From first year to third year</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-home text-primary mb-4"></i>
-                            <h5 class="mb-3">Chat</h5>
-                            <p>chat to collaborate with other students</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="service-item text-center pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                            <h5 class="mb-3">Book Library</h5>
-                            <p>We have a digital  collection of books across various courses</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
+  
 
 
     <!-- About Start -->
@@ -314,7 +271,7 @@
                             </div>
                         </div>
                         <div class="text-center p-4">
-                            <h5 class="mb-0">Dr Mulonda</h5>
+                            <h5 class="mb-0">Mr Chasumpa</h5>
                             <small>Computer Networks: Wifi, Internet, LAN, Iot  and telecomunication</small>
                         </div>
                     </div>
@@ -350,7 +307,7 @@
                             </div>
                         </div>
                         <div class="text-center p-4">
-                            <h5 class="mb-0">Mr. Sichilima</h5>
+                            <h5 class="mb-0">Mr. Musenge</h5>
                             <small>Computer Programming In C++, Python and Java</small>
                         </div>
                     </div>
@@ -368,7 +325,7 @@
                             </div>
                         </div>
                         <div class="text-center p-4">
-                            <h5 class="mb-0">Ms Chifwelu</h5>
+                            <h5 class="mb-0">Mr Melvien</h5>
                             <small>System Analysis and Design: ERD, UML, system Analyst Skills</small>
                         </div>
                     </div>

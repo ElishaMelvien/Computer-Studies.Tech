@@ -1,7 +1,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>Elishotechnologies</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Elishatechnologies</span></strong>. All Rights Reserved
     
   </footer><!-- End Footer -->
 

@@ -111,7 +111,7 @@
         var courseLists = {
             '1': ['Programming I', 'Entrepreneurship', 'Statistics and Mathematics', 'Communication Skills', 'Information Technology', 'Entrepreneurship', 'Foundation of Management', 'Computer Architecture'],
             '2': ['Programming II', 'System Analysis and Design I', 'Database Technology', 'Operating Systems', 'Accounts', 'Quantitative Analysis'],
-            '3': ['Advanced Programming', 'Computer Networks', 'Management Information Systems', 'System Analysis and Design II'],
+            '3': ['Advanced Programming', 'Computer Networks', 'MIS', 'System Analysis and Design II'],
         };
 
         // DataTable configuration

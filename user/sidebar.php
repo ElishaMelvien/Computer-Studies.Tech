@@ -40,7 +40,7 @@
         </li><!-- End Quiz -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="dashboard.php?page=home">
+            <a class="nav-link collapsed" href="dashboard.php?page=dashboard">
                 <i class="bi bi-globe"></i>
                 <span>Home</span>
             </a>
